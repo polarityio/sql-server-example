@@ -1,0 +1,13 @@
+# Polarity SQL Server Example Integration
+
+This integration is a framework to allow you to create customized integrations for connecting to and executing queries against SQL Server.
+
+## Installation Instructions
+
+Installation instructions for integrations are provided on the [PolarityIO GitHub Page](https://polarityio.github.io/).
+
+## Polarity
+
+Polarity is a memory-augmentation platform that improves and accelerates analyst decision making.  For more information about the Polarity platform please see:
+
+https://polarity.io/
