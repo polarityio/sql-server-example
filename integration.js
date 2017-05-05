@@ -82,8 +82,8 @@ function _getConnectionOptions(options) {
 }
 
 function _lookupHostname(entityObj, options, connection, cb) {
-    //let sql = "SELECT * FROM mytable WHERE value = @entity";
-    let sql = "SELECT TOP 2 id, imdb_id, title, movie_year FROM omdb";
+
+    let sql = "SELECT TOP 2 id, imdb_id, title, runtime FROM omdb WHERE title LIKE @entity";
     let rows = [];
 
     let request = new Request(sql, function (err, rowCount) {
@@ -92,25 +92,31 @@ function _lookupHostname(entityObj, options, connection, cb) {
             cb(err);
             return;
         }else{
-            // The lookup results returned is an array of lookup objects with the following format
-            cb(null, {
-                // Required: This is the entity object passed into the integration doLookup method
-                entity: entityObj,
-                // Required: An object containing everything you want passed to the template
-                data: {
-                    // Required: These are the tags that are displayed in your template
-                    summary: [rowCount + ' rows'],
-                    // Data that you want to pass back to the notification window details block
-                    details: {
-                        rowCount: rowCount,
-                        rows: rows
+            if(rowCount > 0){
+                // The lookup results returned is an array of lookup objects with the following format
+                cb(null, {
+                    // Required: This is the entity object passed into the integration doLookup method
+                    entity: entityObj,
+                    // Required: An object containing everything you want passed to the template
+                    data: {
+                        // Required: These are the tags that are displayed in your template
+                        summary: [rowCount + ' rows'],
+                        // Data that you want to pass back to the notification window details block
+                        details: {
+                            rowCount: rowCount,
+                            rows: rows
+                        }
                     }
-                }
-            });
+                });
+            }else{
+                // cache the miss
+                cb(null, {entity:entityObj, data: null});
+            }
+
         }
     });
 
-    //request.addParameter('entity', TYPES.VarChar, entityObj.value);
+    request.addParameter('entity', TYPES.VarChar, '%' + entityObj.value + '%');
 
     request.on('row', function(columns){
         let row = {};
