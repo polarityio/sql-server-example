@@ -16,12 +16,11 @@ module.exports = {
      * @required
      */
     "acronym":"SQL",
-    "logging": {level: 'trace'},
+    "logging": {level: 'info'},
     "customTypes":[
         {
             "key": 'hostname',
-            // Sample regex that recognizes hostnames with 5 characters followed by 2 digits (e.g., "hello09")
-            "regex": /[a-z]{5}[0-9]{2}/
+            "regex": /hello/
         }
     ],
     /**
