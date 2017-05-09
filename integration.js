@@ -8,6 +8,8 @@ let _ = require('lodash');
 let async = require('async');
 let Logger;
 let pool;
+let poolOptions;
+
 const CONNECTION_POOL_CONFIG = {
     min: 2,
     max: 4,
@@ -23,40 +25,82 @@ function doLookup(entities, options, cb) {
 
     Logger.trace({entities:entities}, 'doLookup');
 
-    _initConnectionPool(options);
-
-    async.each(entities, function (entityObj, next) {
-        if (entityObj.types.indexOf('custom.hostname') >= 0) {
-            pool.acquire(function (err, connection) {
-                Logger.trace("Lookup Hostname");
-                _lookupHostname(entityObj, options, connection, function (err, result) {
-                    Logger.trace({result:result}, "Got SQL Result");
-                    connection.release();
-                    if (err) {
-                        next(err);
-                    } else {
-                        lookupResults.push(result);
-                        next(null);
-                    }
-                });
-            });
-        } else {
-            next(null);
+    _initConnectionPool(options, function(err){
+        if(err){
+            cb(err);
+            return;
         }
-    }, function (err) {
-        Logger.trace({lookupResults:lookupResults}, 'Lookup Results');
-        cb(err, lookupResults);
+
+        async.each(entities, function (entityObj, next) {
+            if (entityObj.types.indexOf('custom.hostname') >= 0) {
+                pool.acquire(function (err, connection) {
+                    Logger.trace("Lookup Hostname");
+                    _lookupHostname(entityObj, options, connection, function (err, result) {
+                        Logger.trace({result:result}, "Got SQL Result");
+                        connection.release();
+                        if (err) {
+                            next(err);
+                        } else {
+                            lookupResults.push(result);
+                            next(null);
+                        }
+                    });
+                });
+            } else {
+                next(null);
+            }
+        }, function (err) {
+            Logger.trace({lookupResults:lookupResults}, 'Lookup Results');
+            cb(err, lookupResults);
+        });
     });
 }
 
-function _initConnectionPool(integrationOptions) {
-    if (typeof pool === 'undefined') {
-        let dbOptions = _getConnectionOptions(integrationOptions);
-        pool = new ConnectionPool(CONNECTION_POOL_CONFIG, dbOptions);
-        pool.on('error', function (err) {
-            Logger.error({err: err}, 'Connection Pool Error');
-        });
+function _initConnectionPool(integrationOptions, cb) {
+    if (typeof poolOptions === 'undefined') {
+        poolOptions = _getConnectionOptions(integrationOptions);
     }
+
+    let newOptions = _getConnectionOptions(integrationOptions);
+
+    if (typeof pool === 'undefined' || _optionsHaveChanged(poolOptions, newOptions)) {
+        async.waterfall([
+            function(next){
+                if(pool){
+                    Logger.info("Draining Connection Pool");
+                    pool.drain(next);
+                }else{
+                    next();
+                }
+            },
+            function(next){
+                poolOptions = newOptions;
+                Logger.info({options:poolOptions}, "Creating New Connection Pool");
+                pool = new ConnectionPool(CONNECTION_POOL_CONFIG, poolOptions);
+                pool.on('error', function (err) {
+                    Logger.error({err: err}, 'Connection Pool Error');
+                });
+                next();
+            }
+        ], function(err){
+            cb(err);
+        });
+    }else{
+        cb();
+    }
+}
+
+/**
+ * Compares two javascript object literals and returns true if they are the same, false if not.  Is used
+ * to determine if a user has changed Redis connection options since the last lookup.
+ *
+ * @param options1
+ * @param options2
+ * @returns {boolean}
+ * @private
+ */
+function _optionsHaveChanged(options1, options2) {
+    return !_.isEqual(options1, options2);
 }
 
 function _getConnectionOptions(options) {
@@ -75,8 +119,6 @@ function _getConnectionOptions(options) {
     if (options.domain) {
         dbOptions.domain = options.domain;
     }
-
-    Logger.info({dbOptions:dbOptions}, 'Database Connection Options');
 
     return dbOptions;
 }
