@@ -16,7 +16,7 @@ module.exports = {
      * @required
      */
     "acronym":"SQL",
-    "logging": {level: 'trace'},
+    "logging": {level: 'info'},
     "customTypes":[
         {
             "key": 'hostname',
