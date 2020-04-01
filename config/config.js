@@ -17,12 +17,7 @@ module.exports = {
    */
   acronym: 'SQL',
   logging: { level: 'info' },
-  customTypes: [
-    {
-      key: 'hostname',
-      regex: /hello/
-    }
-  ],
+  entityTypes: ['IPv4'],
   /**
    * Description for this integration which is displayed in the Polarity integrations user interface
    *
