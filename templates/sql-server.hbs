@@ -4,22 +4,4 @@ the "Detail Block" within the notification window which is the data you see when
 In this template we are iterating over all the key-value pairs in `block.data.details` which maps directly back to
 object we returned from our doLookup method inside `integration.js`
 --}}
-<table style="width: 100%">
-    <thead>
-    <tr>
-    {{#each-in block.data.details.rows.[0] as |key value|}}
-        <th>{{{key}}}</th>
-    {{/each-in}}
-    </tr>
-    </thead>
-    <tbody>
-    {{#each block.data.details.rows as |row|}}
-        <tr>
-            {{#each-in row as |key value|}}
-                <td>{{{value}}}</td>
-            {{/each-in}}
-        </tr>
-    {{/each}}
-    </tbody>
-</table>
-
+{{object-to-table block.data.details.rows}}
