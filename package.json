@@ -8,6 +8,12 @@
     "lodash": "^4.17.15",
     "async": "^3.2.0",
     "tedious": "2.7.1",
-    "tedious-connection-pool": "1.0.5"
-  }
+    "tedious-connection-pool": "1.0.5",
+    "snyk": "^1.316.1"
+  },
+  "scripts": {
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
+  },
+  "snyk": true
 }
