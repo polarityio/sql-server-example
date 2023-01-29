@@ -1,0 +1,85 @@
+{
+  "name": "SQL Server Example",
+  "acronym": "SQL",
+  "logging": {
+    "level": "info"
+  },
+  "entityTypes": [
+    "IPv4"
+  ],
+  "defaultColor": "light-gray",
+  "description": "This is a sample SQL Server Example that looks up a custom hostname",
+  "block": {
+    "component": {
+      "file": "./components/sql-server.js"
+    },
+    "template": {
+      "file": "./templates/sql-server.hbs"
+    }
+  },
+  "options": [
+    {
+      "key": "host",
+      "name": "Database Host",
+      "description": "The hostname of the server hosting your SQL Server instance",
+      "default": "",
+      "type": "text",
+      "userCanEdit": false,
+      "adminOnly": true
+    },
+    {
+      "key": "port",
+      "name": "Database Port",
+      "description": "The port your database instance is listening on",
+      "default": 1433,
+      "type": "number",
+      "userCanEdit": false,
+      "adminOnly": true
+    },
+    {
+      "key": "database",
+      "name": "Database Name",
+      "description": "The name of the database you are connecting to",
+      "default": "",
+      "type": "text",
+      "userCanEdit": false,
+      "adminOnly": true
+    },
+    {
+      "key": "user",
+      "name": "Windows Username",
+      "description": "The windows username that you are authenticating as",
+      "default": "",
+      "type": "text",
+      "userCanEdit": false,
+      "adminOnly": true
+    },
+    {
+      "key": "password",
+      "name": "Users Password",
+      "description": "The password of the user you are authenticating as",
+      "default": "",
+      "type": "password",
+      "userCanEdit": true,
+      "adminOnly": false
+    },
+    {
+      "key": "domain",
+      "name": "Windows Domain",
+      "description": "The domain the database is running under (e.g., WORKGROUP)",
+      "default": "",
+      "type": "text",
+      "userCanEdit": false,
+      "adminOnly": true
+    },
+    {
+      "key": "query",
+      "name": "Query",
+      "description": "The query you want to execute and return data for.  Replace the entity with \"@entity\".  (e.g., SELECT * FROM data WHERE ip = @entity).",
+      "default": "",
+      "type": "text",
+      "userCanEdit": true,
+      "adminOnly": false
+    }
+  ]
+}

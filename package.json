@@ -1,13 +1,13 @@
 {
-  "main": "./integration.js",
   "name": "SQLServerExample",
+  "version": "3.0.2-beta",
+  "main": "./integration.js",
   "description": "SQL Server Example",
-  "version": "3.0.1-beta",
   "private": true,
   "dependencies": {
-    "lodash": "^4.17.15",
-    "async": "^3.2.0",
-    "tedious": "2.7.1",
-    "tedious-connection-pool": "1.0.5"
+    "lodash": "^4.17.21",
+    "async": "^3.2.4",
+    "tedious": "^15.1.2",
+    "tedious-connection-pool": "^1.0.5"
   }
 }

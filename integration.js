@@ -1,11 +1,12 @@
 'use strict';
 
-let ConnectionPool = require('tedious-connection-pool');
-let Request = require('tedious').Request;
-let Connection = require('tedious').Connection;
-let TYPES = require('tedious').TYPES;
-let _ = require('lodash');
-let async = require('async');
+const ConnectionPool = require('tedious-connection-pool');
+const Request = require('tedious').Request;
+const Connection = require('tedious').Connection;
+const TYPES = require('tedious').TYPES;
+const _ = require('lodash');
+const async = require('async');
+
 let Logger;
 let pool;
 let poolOptions;

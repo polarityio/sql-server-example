@@ -18,6 +18,7 @@ module.exports = {
   acronym: 'SQL',
   logging: { level: 'info' },
   entityTypes: ['IPv4'],
+  defaultColor: 'light-gray',
   /**
    * Description for this integration which is displayed in the Polarity integrations user interface
    *
@@ -40,6 +41,15 @@ module.exports = {
     template: {
       file: './templates/sql-server.hbs'
     }
+  },
+  // Note: request attributes not currently used
+  request: {
+    cert: '',
+    key: '',
+    passphrase: '',
+    ca: '',
+    proxy: '',
+    rejectUnauthorized: true
   },
   /**
    * Options that are displayed to the user/admin in the Polarity integration user-interface.  Should be structured
