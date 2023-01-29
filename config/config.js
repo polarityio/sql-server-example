@@ -18,6 +18,7 @@ module.exports = {
   acronym: 'SQL',
   logging: { level: 'info' },
   entityTypes: ['IPv4'],
+  defaultColor: 'light-gray',
   /**
    * Description for this integration which is displayed in the Polarity integrations user interface
    *
