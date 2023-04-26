@@ -1,6 +1,6 @@
 {
   "name": "SQLServerExample",
-  "version": "3.0.4-beta",
+  "version": "3.0.5",
   "main": "./integration.js",
   "description": "SQL Server Example",
   "private": true,
