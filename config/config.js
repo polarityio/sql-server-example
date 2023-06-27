@@ -48,7 +48,7 @@ module.exports = {
     key: '',
     passphrase: '',
     ca: '',
-    proxy: ""
+    proxy: ''
   },
   /**
    * Options that are displayed to the user/admin in the Polarity integration user-interface.  Should be structured

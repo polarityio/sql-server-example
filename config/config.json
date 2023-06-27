@@ -5,9 +5,7 @@
   "logging": {
     "level": "info"
   },
-  "entityTypes": [
-    "IPv4"
-  ],
+  "entityTypes": ["IPv4"],
   "defaultColor": "light-gray",
   "description": "This is a sample SQL Server Example that looks up a custom hostname",
   "block": {
@@ -17,6 +15,13 @@
     "template": {
       "file": "./templates/sql-server.hbs"
     }
+  },
+  "request": {
+    "cert": "",
+    "key": "",
+    "passphrase": "",
+    "ca": "",
+    "proxy": ""
   },
   "options": [
     {
